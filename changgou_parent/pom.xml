@@ -11,6 +11,8 @@
     <modules>
         <module>changgou_gateway</module>
         <module>changgou_service</module>
+        <module>changgou_service_api</module>
+        <module>changgou_web</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
