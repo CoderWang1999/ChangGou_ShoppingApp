@@ -123,4 +123,9 @@ public class BrandServiceImpl implements BrandService {
         Page<Brand> pageInfo = (Page<Brand>) brandMapper.selectByExample(example);
         return pageInfo;
     }
+
+    @Override
+    public List<Map> findBrandListByCategoryName(String categoryName) {
+        return brandMapper.findListByCategoryName(categoryName);
+    }
 }

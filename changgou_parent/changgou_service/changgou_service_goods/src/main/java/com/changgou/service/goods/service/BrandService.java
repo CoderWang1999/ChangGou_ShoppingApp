@@ -49,4 +49,7 @@ public interface BrandService {
      * 品牌列表分页+条件查询
      */
     Page<Brand> findPage(Map<String, Object> searchMap, int page, int size);
+
+    List<Map> findBrandListByCategoryName(String categoryName);
+
 }

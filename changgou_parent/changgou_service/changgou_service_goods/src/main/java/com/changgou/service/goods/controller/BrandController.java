@@ -1,6 +1,4 @@
 package com.changgou.service.goods.controller;
-
-
 import com.changgou.entity.PageResult;
 import com.changgou.entity.Result;
 import com.changgou.entity.StatusCode;
@@ -14,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/brand")
+@CrossOrigin
 @RestController
 public class BrandController {
 
@@ -70,5 +69,10 @@ public class BrandController {
         Page pageInfo = brandService.findPage(searchMap, page, size);
         PageResult pageResult = new PageResult(pageInfo.getTotal(),pageInfo.getResult());
         return new Result(true,StatusCode.OK,"查询成功",pageResult);
+    }
+    @GetMapping("/category/{categoryName}")
+public Result<List<Map>> findBrandListByCategoryName(@PathVariable("categoryName")String categoryName){
+        List<Map> brandList =brandService.findBrandListByCategoryName(categoryName);
+        return new Result<>(true,StatusCode.OK,"查询成功",brandList);
     }
 }
