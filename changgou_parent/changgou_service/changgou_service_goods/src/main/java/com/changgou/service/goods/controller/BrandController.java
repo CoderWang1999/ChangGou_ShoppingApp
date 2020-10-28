@@ -1,8 +1,9 @@
 package com.changgou.service.goods.controller;
 
-import com.changgou.common.pojo.PageResult;
-import com.changgou.common.pojo.Result;
-import com.changgou.common.pojo.StatusCode;
+
+import com.changgou.entity.PageResult;
+import com.changgou.entity.Result;
+import com.changgou.entity.StatusCode;
 import com.changgou.goods.pojo.Brand;
 import com.changgou.service.goods.service.BrandService;
 import com.github.pagehelper.Page;
