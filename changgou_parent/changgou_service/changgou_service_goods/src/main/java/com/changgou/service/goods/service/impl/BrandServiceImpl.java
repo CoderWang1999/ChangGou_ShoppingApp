@@ -106,22 +106,32 @@ public class BrandServiceImpl implements BrandService {
     public Page<Brand> findPage(Map<String, Object> searchMap, int page, int size) {
         //设置分页
         PageHelper.startPage(page,size);
-
-        //设置查询条件
         Example example = new Example(Brand.class);
         Example.Criteria criteria = example.createCriteria();
         if (searchMap!=null){
-            //设置品牌名称模糊查询
-            if (searchMap.get("name")!=null && !"".equals(searchMap.get("name"))){
+            // 品牌名称
+            if(searchMap.get("name")!=null && !"".equals(searchMap.get("name"))){
                 criteria.andLike("name","%"+searchMap.get("name")+"%");
             }
-            //设置品牌首字母的精确查询
-            if (searchMap.get("letter")!=null && !"".equals(searchMap.get("letter"))){
-                criteria.andEqualTo("letter",searchMap.get("letter"));
+            // 品牌图片地址
+            if(searchMap.get("image")!=null && !"".equals(searchMap.get("image"))){
+                criteria.andLike("image","%"+searchMap.get("image")+"%");
+            }
+            // 品牌的首字母
+            if(searchMap.get("letter")!=null && !"".equals(searchMap.get("letter"))){
+                criteria.andLike("letter","%"+searchMap.get("letter")+"%");
+            }
+
+            // 品牌id
+            if(searchMap.get("id")!=null ){
+                criteria.andEqualTo("id",searchMap.get("id"));
+            }
+            // 排序
+            if(searchMap.get("seq")!=null ){
+                criteria.andEqualTo("seq",searchMap.get("seq"));
             }
         }
-        Page<Brand> pageInfo = (Page<Brand>) brandMapper.selectByExample(example);
-        return pageInfo;
+        return (Page<Brand>) brandMapper.selectByExample(example);
     }
 
     @Override
