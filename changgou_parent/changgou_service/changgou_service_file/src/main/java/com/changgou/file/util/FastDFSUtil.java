@@ -64,7 +64,6 @@ public class FastDFSUtil {
             byte[] fileByte = storageClient.download_file(groupName, remoteFileName);
             InputStream ins = new ByteArrayInputStream(fileByte);
             return ins;
-
         } catch (Exception e) {
             logger.error("Exception: Get File from Fast DFS failed", e);
         }
@@ -92,7 +91,7 @@ public class FastDFSUtil {
     //获取Storage信息,IP和端口
     public static ServerInfo[] getFetchStorages(String groupName, String remoteFileName) throws Exception {
         TrackerClient trackerClient = new TrackerClient();
-        TrackerServer trackerServer = trackerClient.getConnection();
+        TrackerServer trackerServer = getTrackerServer();
         return trackerClient.getFetchStorages(trackerServer, groupName, remoteFileName);
     }
 
@@ -104,8 +103,7 @@ public class FastDFSUtil {
 
     //获取storageClient
     public static StorageClient getStorageClient() throws Exception {
-        TrackerClient trackerClient = new TrackerClient();
-        TrackerServer trackerServer = trackerClient.getConnection();
+        TrackerServer trackerServer = getTrackerServer();
         StorageClient storageClient = new StorageClient(trackerServer, null);
         return storageClient;
     }

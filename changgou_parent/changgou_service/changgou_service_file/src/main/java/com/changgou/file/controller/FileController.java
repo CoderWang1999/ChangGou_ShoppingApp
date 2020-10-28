@@ -7,17 +7,19 @@ import com.changgou.file.util.FastDFSUtil;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @RestController
 @RequestMapping("/file")
 public class FileController {
     @PostMapping("/upload")
-    public Result uploadFile(MultipartFile file){
+    public Result uploadFile(@RequestParam(value = "file") MultipartFile  file){
         try {
             //判断文件是否存在
-            if (file==null){
+             if (file==null){
                 throw  new RuntimeException("文件不存在");
             }
             //获取文件完整名称
