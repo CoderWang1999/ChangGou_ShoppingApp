@@ -52,4 +52,5 @@ public interface BrandService {
 
     List<Map> findBrandListByCategoryName(String categoryName);
 
+    List<Map> findListByCategoryName(String category);
 }
