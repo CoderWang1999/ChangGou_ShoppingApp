@@ -144,4 +144,14 @@ public class SpecController {
         List<Spec> list = specService.findAll();
         return new Result<List<Spec>>(true, StatusCode.OK,"查询成功",list) ;
     }
+
+    /***
+     * 根据分类ID查询对应的规格列表
+     */
+    @GetMapping(value = "/category/{id}")
+    public Result<List<Spec>> findByCategoryId(@PathVariable(value = "id")Integer categoryid){
+        //调用Service查询
+        List<Spec> specs = specService.findByCategoryId(categoryid);
+        return new Result<List<Spec>>(true, StatusCode.OK,"查询成功",specs);
+    }
 }

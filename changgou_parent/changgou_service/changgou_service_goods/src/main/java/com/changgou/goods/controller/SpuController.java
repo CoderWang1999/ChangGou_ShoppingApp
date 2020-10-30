@@ -2,6 +2,7 @@ package com.changgou.goods.controller;
 
 import com.changgou.entity.Result;
 import com.changgou.entity.StatusCode;
+import com.changgou.goods.pojo.Goods;
 import com.changgou.goods.pojo.Spu;
 import com.changgou.goods.service.SpuService;
 import com.github.pagehelper.PageInfo;
@@ -143,5 +144,42 @@ public class SpuController {
         //调用SpuService实现查询所有Spu
         List<Spu> list = spuService.findAll();
         return new Result<List<Spu>>(true, StatusCode.OK,"查询成功",list) ;
+    }
+
+    /***
+     * 添加Goods
+     * @param goods
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Goods goods){
+        spuService.saveGoods(goods);
+        return new Result(true,StatusCode.OK,"保存成功");
+    }
+
+    /***
+     * 根据ID查询Goods
+     * @param id
+     * @return
+     */
+    @GetMapping("/goods/{id}")
+    public Result<Goods> findGoodsById(@PathVariable Long id){
+        //根据ID查询Goods(SPU+SKU)信息
+        Goods goods = spuService.findGoodsById(id);
+        return new Result<Goods>(true,StatusCode.OK,"查询成功",goods);
+    }
+
+    /***
+     * 根据ID修改Goods
+     * @param id
+     * @return
+     */
+    @PutMapping(value = "/goods/{id}")
+    public Result updateGoodsById(@RequestBody Goods goods,@PathVariable Long id){
+        Spu spu = new Spu();
+        spu.setId(String.valueOf(id));
+        goods.setSpu(spu);
+        spuService.saveGoods(goods);
+        return new Result(true,StatusCode.OK,"修改成功");
     }
 }

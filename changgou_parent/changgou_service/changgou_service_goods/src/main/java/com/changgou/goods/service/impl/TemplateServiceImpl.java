@@ -1,6 +1,8 @@
 package com.changgou.goods.service.impl;
 
+import com.changgou.goods.dao.CategoryMapper;
 import com.changgou.goods.dao.TemplateMapper;
+import com.changgou.goods.pojo.Category;
 import com.changgou.goods.pojo.Template;
 import com.changgou.goods.service.TemplateService;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +24,8 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Autowired
     private TemplateMapper templateMapper;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
 
     /**
@@ -142,5 +146,18 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public List<Template> findAll() {
         return templateMapper.selectAll();
+    }
+
+    /***
+     * 根据分类ID查询模板信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Template findByCategoryId(Integer id) {
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        Integer templateId = category.getTemplateId();
+        Template template = templateMapper.selectByPrimaryKey(templateId);
+        return template;
     }
 }

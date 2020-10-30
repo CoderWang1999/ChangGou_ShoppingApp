@@ -144,4 +144,14 @@ public class CategoryController {
         List<Category> list = categoryService.findAll();
         return new Result<List<Category>>(true, StatusCode.OK,"查询成功",list) ;
     }
+
+    /****
+     * 根据节点ID查询所有子节点分类集合
+     */
+    @GetMapping(value = "/list/{pid}")
+    public Result<List<Category>> findByParentId(@PathVariable(value = "pid")Integer pid){
+        //调用Service实现查询
+        List<Category> categories = categoryService.findByParentId(pid);
+        return new Result<List<Category>>(true,StatusCode.OK,"查询成功！",categories);
+    }
 }
