@@ -79,4 +79,53 @@ public interface SpuService {
      * @param spuId
      */
     Goods findGoodsById(Long spuId);
+
+    /***
+     * 商品审核
+     * @param spuId
+     */
+    void audit(Long spuId);
+
+    /***
+     * 商品下架
+     * @param spuId
+     */
+    void pull(Long spuId);
+
+
+    /***
+     * 商品上架
+     * @param spuId
+     */
+    void put(Long spuId);
+
+    /***
+     * 批量上架
+     * @param ids
+     */
+    int putMany(Long[] ids);
+
+    /***
+     * 批量下架
+     * @param ids
+     */
+    int pullMany(Long[] ids);
+
+    /***
+     * 逻辑删除
+     * @param spuId
+     */
+    void logicDelete(Long spuId);
+
+    /***
+     * 还原被删除商品
+     * @param spuId
+     */
+    void restore(Long spuId);
+
+    /***
+     * 物理删除商品
+     * @param spuId
+     */
+    void physicsDelete(Long spuId);
 }
