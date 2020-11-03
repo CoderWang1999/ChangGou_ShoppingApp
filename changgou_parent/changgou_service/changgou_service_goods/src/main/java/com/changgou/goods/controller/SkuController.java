@@ -9,7 +9,9 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /****
  * @Author:shenkunlin
@@ -154,5 +156,18 @@ public class SkuController {
     public Result<List<Sku>> findByStatus(@PathVariable String status) {
         List<Sku> list = skuService.findByStatus(status);
         return new Result<List<Sku>>(true, StatusCode.OK, "查询成功", list);
+    }
+
+    @GetMapping("/spu/{spuId}")
+    public List<Sku> findSkuListBySpuId(@PathVariable("spuId") String spuId){
+        Map<String,Object> searchMap = new HashMap<>();
+
+        if (!"all".equals(spuId)){
+            searchMap.put("spuId",spuId);
+        }
+        searchMap.put("status","1");
+        List<Sku> skuList = skuService.findListBySearchMap(searchMap);
+
+        return skuList;
     }
 }
