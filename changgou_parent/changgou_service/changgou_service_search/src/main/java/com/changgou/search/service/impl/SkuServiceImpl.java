@@ -5,6 +5,7 @@ import com.changgou.entity.Result;
 import com.changgou.goods.feign.SkuFeign;
 import com.changgou.goods.pojo.Sku;
 import com.changgou.search.dao.SkuEsMapper;
+
 import com.changgou.search.pojo.SkuInfo;
 import com.changgou.search.service.SkuService;
 
