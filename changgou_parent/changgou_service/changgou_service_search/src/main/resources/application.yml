@@ -11,7 +11,7 @@ spring:
     allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
   data:
     elasticsearch:
-      cluster-name: my-application
+      cluster-name: elasticsearch
       cluster-nodes: 192.168.200.128:9300
 eureka:
   client:
