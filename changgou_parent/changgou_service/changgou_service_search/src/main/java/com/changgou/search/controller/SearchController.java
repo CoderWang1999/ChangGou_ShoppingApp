@@ -24,8 +24,6 @@ public class SearchController {
 
     @GetMapping
     public Map search(@RequestParam Map<String,String> searchMap){
-        //特殊符号处理
-        this.handleSearchMap(searchMap);
         Map searchResult = searchService.search(searchMap);
         return searchResult;
     }
@@ -35,14 +33,5 @@ public class SearchController {
     public Result importAll(){
         esManagerService.importAll();
         return new Result(true, StatusCode.OK,"导入全部数据成功");
-    }
-
-    private void handleSearchMap(Map<String, String> searchMap) {
-        Set<Map.Entry<String, String>> entries = searchMap.entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            if (entry.getKey().startsWith("spec_")){
-                searchMap.put(entry.getKey(),entry.getValue().replace("+","%2B"));
-            }
-        }
     }
 }
