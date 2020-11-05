@@ -116,11 +116,23 @@ public class SearchServiceImpl implements SearchService {
         //获取分组结果  商品规格数据
         StringTerms stringTermsSpec = (StringTerms) skuPage.getAggregation("skuSpecgroup");
 
+        //调用获取品牌列表方法
+        List<String> brandList = getStringsBrandList(stringTermsBrand);
+        //调用获取分类列表方法
+        List<String> categoryList = getStringsCategoryList(stringTermsCategory);
+        //调用获取规格列表方法
+        Map<String, Set<String>> specMap = getStringSetMap(stringTermsSpec);
 
         //返回结果集
         HashMap<Object, Object> resultMap = new HashMap<>();
+        resultMap.put("specMap",searchMap);
+        resultMap.put("categoryList",categoryList);
+        resultMap.put("brandList",brandList);
+        resultMap.put("rows",skuPage.getContent());
+        resultMap.put("total",skuPage.getTotalElements());
+        resultMap.put("totalPages",skuPage.getTotalPages());
 
-        return null;
+        return resultMap;
     }
 
     /***
