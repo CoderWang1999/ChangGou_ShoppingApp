@@ -33,7 +33,7 @@ public class SearchServiceImpl implements SearchService {
         //获取关键字
         String keywords = searchMap.get("keywords");
         if (StringUtils.isEmpty(keywords)) {
-            throw new RuntimeException("关键字不能为空！");
+            keywords = "华为";
         }
         //创建查询对象的构建对象
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
@@ -121,17 +121,21 @@ public class SearchServiceImpl implements SearchService {
         //调用获取分类列表方法
         List<String> categoryList = getStringsCategoryList(stringTermsCategory);
         //调用获取规格列表方法
-        Map<String, Set<String>> specMap = getStringSetMap(stringTermsSpec);
+        Map<String, Set<String>> specList = getStringSetMap(stringTermsSpec);
 
         //返回结果集
         HashMap<Object, Object> resultMap = new HashMap<>();
-        resultMap.put("specMap",searchMap);
-        resultMap.put("categoryList",categoryList);
-        resultMap.put("brandList",brandList);
-        resultMap.put("rows",skuPage.getContent());
-        resultMap.put("total",skuPage.getTotalElements());
-        resultMap.put("totalPages",skuPage.getTotalPages());
-
+        resultMap.put("specMap", searchMap);
+        resultMap.put("categoryList", categoryList);
+        resultMap.put("brandList", brandList);
+        resultMap.put("rows", skuPage.getContent());
+        resultMap.put("total", skuPage.getTotalElements());
+        resultMap.put("specList",specList);
+        resultMap.put("totalPages", skuPage.getTotalPages());
+        //分页数据保存
+        //设置当前页码
+        resultMap.put("pageNum", pageNum);
+        resultMap.put("pageSize", 30);
         return resultMap;
     }
 

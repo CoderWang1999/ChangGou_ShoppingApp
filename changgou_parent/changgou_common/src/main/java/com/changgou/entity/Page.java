@@ -3,7 +3,26 @@ package com.changgou.entity;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 分页对象
+ * @param <T>
+ */
 public class Page <T> implements Serializable{
+
+	//当前默认为第一页
+	public static final Integer pageNum = 1;
+	//默认每页显示条件
+	public static final Integer pageSize = 20;
+
+
+	//判断当前页是否为空或是小于1
+	public static Integer cpn(Integer pageNum){
+		if(null == pageNum || pageNum < 1){
+			pageNum = 1;
+		}
+		return pageNum;
+	}
+
 
 	// 页数（第几页）
 	private long currentpage;
@@ -11,7 +30,7 @@ public class Page <T> implements Serializable{
 	// 查询数据库里面对应的数据有多少条
 	private long total;// 从数据库查处的总记录数
 
-	// 每页查5条
+	// 每页显示多少分页标签
 	private int size;
 
 	// 下页
@@ -38,13 +57,11 @@ public class Page <T> implements Serializable{
 
 	/****
 	 *
-	 * @param currentpage
-	 * @param total
-	 * @param pagesize
+	 * @param currentpage 当前页
+	 * @param total 总记录数
+	 * @param pagesize 每页显示多少条
 	 */
 	public void setCurrentpage(long currentpage,long total,long pagesize) {
-		//可以整除的情况下
-		long pagecount =  total/pagesize;
 
 		//如果整除表示正好分N页，如果不能整除在N页的基础上+1页
 		int totalPages = (int) (total%pagesize==0? total/pagesize : (total/pagesize)+1);
@@ -59,43 +76,11 @@ public class Page <T> implements Serializable{
 			this.currentpage=currentpage;
 		}
 
-		//计算start
+		//计算起始页
 		this.start = (this.currentpage-1)*pagesize;
 	}
-
-	//上一页
-	public long getUpper() {
-		return currentpage>1? currentpage-1: currentpage;
-	}
-
-	//总共有多少页，即末页
-	public void setLast(int last) {
-		this.last = (int) (total%size==0? total/size : (total/size)+1);
-	}
-
-	/****
-	 * 带有偏移量设置的分页
-	 * @param total
-	 * @param currentpage
-	 * @param pagesize
-	 * @param offsize
-	 */
-	public Page(long total,int currentpage,int pagesize,int offsize) {
-		this.offsize = offsize;
-		initPage(total, currentpage, pagesize);
-	}
-
-	/****
-	 *
-	 * @param total   总记录数
-	 * @param currentpage	当前页
-	 * @param pagesize	每页显示多少条
-	 */
-	public Page(long total,int currentpage,int pagesize) {
-		initPage(total,currentpage,pagesize);
-	}
-
-	/****
+  
+  /****
 	 * 初始化分页
 	 * @param total
 	 * @param currentpage
@@ -151,6 +136,38 @@ public class Page <T> implements Serializable{
 		 * 否则不管
 		 */
 		this.rpage=this.rpage>last? this.last:this.rpage;
+	}
+  
+  /****
+	 *
+	 * @param total   总记录数
+	 * @param currentpage	当前页
+	 * @param pagesize	每页显示多少条
+	 */
+	public Page(long total,int currentpage,int pagesize) {
+		initPage(total,currentpage,pagesize);
+	}
+
+	//上一页
+	public long getUpper() {
+		return currentpage>1? currentpage-1: currentpage;
+	}
+
+	//总共有多少页，即末页
+	public void setLast(int last) {
+		this.last = (int) (total%size==0? total/size : (total/size)+1);
+	}
+
+	/****
+	 * 带有偏移量设置的分页
+	 * @param total
+	 * @param currentpage
+	 * @param pagesize
+	 * @param offsize
+	 */
+	public Page(long total,int currentpage,int pagesize,int offsize) {
+		this.offsize = offsize;
+		initPage(total, currentpage, pagesize);
 	}
 
 	public long getNext() {
