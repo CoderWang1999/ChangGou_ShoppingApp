@@ -5,6 +5,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.changgou.business.feign.AdFeign;
 import com.changgou.business.pojo.Ad;
 import com.changgou.entity.Result;
+import com.changgou.item.feign.PageFeign;
 import com.xpand.starter.canal.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -15,6 +16,8 @@ import java.util.List;
 public class CanalDataEventListener {
     @Autowired
     private AdFeign adFeign;
+    @Autowired
+    private PageFeign pageFeign;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -67,7 +70,7 @@ public class CanalDataEventListener {
         Result<List<Ad>> resList = adFeign.findAdByPosition(position);
         List<Ad> adList = resList.getData();
         //使用RedisTemplate存储到Redis
-        stringRedisTemplate.boundValueOps("ad_"+position).set(JSON.toJSONString(adList));
+        stringRedisTemplate.boundValueOps("ad_" + position).set(JSON.toJSONString(adList));
     }
 
     private String getColumnValue(CanalEntry.EventType eventType, CanalEntry.RowData rowData) {
@@ -91,5 +94,38 @@ public class CanalDataEventListener {
         }
         return position;
     }
+
+    @ListenPoint(destination = "example",
+            schema = "changgou_goods",
+            table = {"tb_spu"},
+            eventType = {CanalEntry.EventType.UPDATE, CanalEntry.EventType.INSERT, CanalEntry.EventType.DELETE})
+    public void onEventCustomSpu(CanalEntry.EventType eventType, CanalEntry.RowData rowData) {
+        //判断操作类型
+        if (eventType == CanalEntry.EventType.DELETE) {
+            String spuId = "";
+            List<CanalEntry.Column> beforeColumnsList = rowData.getBeforeColumnsList();
+            for (CanalEntry.Column column : beforeColumnsList) {
+                if (column.getName().equals("id")) {
+                    spuId = column.getValue();//spuid
+                    break;
+                }
+            }
+            //todo 删除静态页
+            pageFeign.deleteHtml(spuId);
+        } else {
+            //新增 或者 更新
+            List<CanalEntry.Column> afterColumnsList = rowData.getAfterColumnsList();
+            String spuId = "";
+            for (CanalEntry.Column column : afterColumnsList) {
+                if (column.getName().equals("id")) {
+                    spuId = column.getValue();
+                    break;
+                }
+            }
+            //更新 生成静态页
+            pageFeign.createHtml(Long.valueOf(spuId));
+        }
+    }
 }
+
 

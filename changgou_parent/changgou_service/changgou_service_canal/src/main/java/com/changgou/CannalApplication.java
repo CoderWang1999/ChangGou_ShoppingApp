@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @EnableEurekaClient
 @EnableCanalClient
-@EnableFeignClients(basePackages = {"com.changgou.business.feign"})
+@EnableFeignClients(basePackages = {"com.changgou.business.feign","com.changgou.item.feign"})
 public class CannalApplication {
     public static void main(String[] args) {
         SpringApplication.run(CannalApplication.class,args);

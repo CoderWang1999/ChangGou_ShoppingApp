@@ -23,6 +23,17 @@ public class PageController {
     @RequestMapping("/createHtml/{id}")
     public Result createHtml(@PathVariable(name = "id") String id) {
         pageService.createPageHtml(id);
-        return new Result(true, StatusCode.OK, "ok");
+        return new Result(true, StatusCode.OK, "生成静态页面成功");
+    }
+    /**
+     * 删除静态页面
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteHtml/{id}")
+    public Result deleteHtml(@PathVariable(name = "id") String id) {
+        pageService.deleteHtml(id);
+        return new Result(true, StatusCode.OK, "删除静态页面成功");
     }
 }
