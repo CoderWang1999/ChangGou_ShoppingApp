@@ -14,5 +14,5 @@ spring:
     cache: false
   application:
     name: search-web
-  main:
-    allow-bean-definition-overriding: true
+#  main:
+#    allow-bean-definition-overriding: true
