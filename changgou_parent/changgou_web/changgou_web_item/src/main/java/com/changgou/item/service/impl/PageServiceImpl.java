@@ -39,7 +39,7 @@ public class PageServiceImpl implements PageService {
      * @param spuId
      */
     @Override
-    public void createPageHtml(Long spuId) {
+    public void createPageHtml(String spuId) {
         //上下文
         Context context = new Context();
         Map<String, Object> dataModel = buildDataModel(spuId);
@@ -63,7 +63,7 @@ public class PageServiceImpl implements PageService {
      * @param spuId
      * @return
      */
-    private Map<String,Object> buildDataModel(Long spuId){
+    private Map<String,Object> buildDataModel(String spuId){
         //构建数据模型
         HashMap<String, Object> dataMap = new HashMap<>();
         //获取Spu，Sku列表
