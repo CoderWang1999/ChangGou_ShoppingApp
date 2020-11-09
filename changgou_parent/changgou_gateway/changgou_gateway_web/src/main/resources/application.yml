@@ -15,13 +15,22 @@ spring:
           #uri: http://localhost:9011
           uri: lb://goods
           predicates:
-          #- Host=cloud.itheima.com**
-          - Path=/**
+            #- Host=cloud.itheima.com**
+            - Path=/**
           filters:
-          #- PrefixPath=/brand
-          - StripPrefix=1
+            #- PrefixPath=/brand
+            - StripPrefix=1
+            - name: RequestRateLimiter #请求数限流 名字不能随便写 ，使用默认的facatory
+              args:
+                key-resolver: "#{@ipKeyResolver}"
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 5
   application:
     name: gateway-web
+  #Redis配置
+  redis:
+    host: 192.168.200.128
+    port: 6379
 server:
   port: 8001
 eureka:
