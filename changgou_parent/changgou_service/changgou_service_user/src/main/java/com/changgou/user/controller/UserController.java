@@ -151,7 +151,6 @@ public class UserController {
             info.put("role","USER");
             info.put("success","SUCCESS");
             info.put("username",username);
-
             //1.生成令牌
             String jwt = JwtUtil.createJWT(UUID.randomUUID().toString(), JSON.toJSONString(info), null);
             //2.设置cookie中
@@ -165,11 +164,5 @@ public class UserController {
             //失败
             return new Result<User>(false, StatusCode.LOGINERROR, "用户名或密码错误");
         }
-
-
-
-
-
-
     }
 }

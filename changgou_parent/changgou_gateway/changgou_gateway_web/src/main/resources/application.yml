@@ -12,19 +12,23 @@ spring:
               - DELETE
       routes:
         - id: changgou_goods_route
-          #uri: http://localhost:9011
           uri: lb://goods
           predicates:
-            #- Host=cloud.itheima.com**
-            - Path=/**
+            - Path=Path=/api/album/**,/api/brand/**,/api/cache/**,/api/categoryBrand/**,/api/category/**,/api/para/**,/api/pref/**,/api/sku/**,/api/spec/**,/api/spu/**,/api/stockBack/**,/api/template/**
           filters:
-            #- PrefixPath=/brand
             - StripPrefix=1
             - name: RequestRateLimiter #请求数限流 名字不能随便写 ，使用默认的facatory
               args:
                 key-resolver: "#{@ipKeyResolver}"
                 redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 5
+                redis-rate-limiter.burstCapacity: 1
+          #用户微服务
+        - id: changgou_user_route
+          uri: lb://user
+          predicates:
+            - Path=/api/user/**,/api/address/**,/api/areas/**,/api/cities/**,/api/provinces/**
+          filters:
+            - StripPrefix=1
   application:
     name: gateway-web
   #Redis配置
