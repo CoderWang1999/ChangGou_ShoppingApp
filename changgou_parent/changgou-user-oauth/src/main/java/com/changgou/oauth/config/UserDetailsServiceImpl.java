@@ -56,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         //根据用户名查询用户信息
-        String pwd = new BCryptPasswordEncoder().encode("admin");
+        String pwd = new BCryptPasswordEncoder().encode("szitheima");
         //创建User对象
         String permissions = "goods_list,seckill_list";
 
